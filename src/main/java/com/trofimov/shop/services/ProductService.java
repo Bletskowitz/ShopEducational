@@ -21,7 +21,8 @@ public class ProductService {
         this.categoryRepository = categoryRepository;
     }
 
-    public List<Product> getAllByCategory(String category) {
+    public List<Product> getAllByCategory(String categoryName) {
+        Category category = categoryRepository.findFirstByNameContainingIgnoreCase(categoryName);
         return productsRepository.findAllByCategory(category);
     }
 

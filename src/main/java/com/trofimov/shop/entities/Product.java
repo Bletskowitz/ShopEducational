@@ -21,7 +21,7 @@ public class Product {
     private Float price;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "category_id")
     private Category category;
 
     public Product(String name, Float price, Category category) {
