@@ -1,7 +1,13 @@
 package com.trofimov.shop.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "products")
 public class Product {
@@ -14,46 +20,14 @@ public class Product {
 
     private Float price;
 
-    private String category;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id")
+    private Category category;
 
-    public Product() {
-    }
-
-    public Product(String name, Float price, String category) {
+    public Product(String name, Float price, Category category) {
         this.name = name;
         this.price = price;
         this.category = category;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
 }

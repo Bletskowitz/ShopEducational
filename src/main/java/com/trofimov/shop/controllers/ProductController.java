@@ -13,13 +13,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Component
 @RestController
 @RequestMapping("/products")
 @Tag(name = "Product controller", description = "Operations for products")
 public class ProductController {
+
+    private ProductService service;
     @Autowired
-    ProductService service;
+    public ProductController(ProductService service) {
+        this.service = service;
+    }
 
     @Operation(summary = "Get all products by category")
     @RequestMapping(value = "/category/{category}", method = RequestMethod.GET)

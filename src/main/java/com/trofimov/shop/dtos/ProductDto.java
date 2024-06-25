@@ -4,9 +4,9 @@ public class ProductDto {
     private Integer id;
     private String name;
     private Float price;
-    private String category;
+    private CategoryDto category;
 
-    public ProductDto(Integer id, String name, Float price, String category) {
+    public ProductDto(Integer id, String name, Float price, CategoryDto category) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -40,11 +40,11 @@ public class ProductDto {
         this.price = price;
     }
 
-    public String getCategory() {
+    public CategoryDto getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(CategoryDto category) {
         this.category = category;
     }
 }
