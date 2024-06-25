@@ -10,5 +10,6 @@ import java.util.List;
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
     Category findFirstById(Integer id);
     Category findFirstByNameContainingIgnoreCase(String name);
+    Category findFirstByNameIgnoreCase(String name);
     List<Category> findAllByIdIsNotNull();
 }

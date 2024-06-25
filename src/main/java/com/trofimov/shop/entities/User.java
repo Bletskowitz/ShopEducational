@@ -1,5 +1,6 @@
 package com.trofimov.shop.entities;
 
+import com.trofimov.shop.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,11 +21,9 @@ public class User {
 
     private String username;
 
-    @ManyToMany
-    @JoinTable(name = "product_cart",
-                joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-                inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"))
-    private List<Product> cart;
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
 
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 }

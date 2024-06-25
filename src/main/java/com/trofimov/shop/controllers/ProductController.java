@@ -5,6 +5,7 @@ import com.trofimov.shop.entities.Product;
 import com.trofimov.shop.services.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,15 +15,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/products")
 @Tag(name = "Product controller", description = "Operations for products")
 public class ProductController {
 
-    private ProductService service;
-    @Autowired
-    public ProductController(ProductService service) {
-        this.service = service;
-    }
+    private final ProductService service;
 
     @Operation(summary = "Get all products by category")
     @RequestMapping(value = "/category/{category}", method = RequestMethod.GET)

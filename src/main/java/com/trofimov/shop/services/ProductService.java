@@ -5,25 +5,21 @@ import com.trofimov.shop.entities.Category;
 import com.trofimov.shop.entities.Product;
 import com.trofimov.shop.repositories.CategoryRepository;
 import com.trofimov.shop.repositories.ProductsRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
 
-    private ProductsRepository productsRepository;
-    private CategoryRepository categoryRepository;
-    @Autowired
-    public ProductService(ProductsRepository productsRepository, CategoryRepository categoryRepository) {
-        this.productsRepository = productsRepository;
-        this.categoryRepository = categoryRepository;
-    }
+    private final ProductsRepository productsRepository;
+    private final CategoryRepository categoryRepository;
 
     public List<Product> getAllByCategory(String categoryName) {
-        Category category = categoryRepository.findFirstByNameContainingIgnoreCase(categoryName);
-        return productsRepository.findAllByCategory(category);
+        return productsRepository.findAllByCategoryName(categoryName);
     }
 
     public List<Product> getAllByNameLike(String name) {
@@ -31,7 +27,7 @@ public class ProductService {
     }
 
     public void addNewProduct(ProductDto dto) {
-        Category category = categoryRepository.findFirstByNameContainingIgnoreCase(dto.getCategory().getName());
+        Category category = categoryRepository.findFirstByNameIgnoreCase(dto.getCategory().getName());
         Product entity = new Product(dto.getName(), dto.getPrice(), category);
         productsRepository.save(entity);
     }
