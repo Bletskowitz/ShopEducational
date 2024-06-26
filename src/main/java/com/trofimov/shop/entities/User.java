@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.LinkedList;
 
 @Getter
 @Setter
@@ -19,10 +19,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
+    @Column(unique = true, nullable = false)
     private String username;
 
-    @OneToMany(mappedBy = "user")
-    private List<Order> orders;
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private LinkedList<Order> orders;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;

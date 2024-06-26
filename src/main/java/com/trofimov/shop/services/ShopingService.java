@@ -26,6 +26,10 @@ public class ShopingService {
     private final ProductsRepository productsRepository;
     private final PositionsRepository positionsRepository;
 
+    public void deletePosition(Integer posId) {
+        positionsRepository.delete(positionsRepository.findById(posId).orElseThrow());
+    }
+
     @Transactional
     public void finishCurrentOrder(Integer userId) {
         User user = userRepository.findFirstById(userId);

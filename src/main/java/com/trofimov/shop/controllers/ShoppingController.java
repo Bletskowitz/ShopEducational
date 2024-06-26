@@ -14,15 +14,21 @@ import org.springframework.web.bind.annotation.*;
 public class ShoppingController {
     private final ShopingService shopingService;
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.PUT)
     @Operation(summary = "Add product to user's order")
     public void addToProductToOrder(@RequestBody PositionDto dto) {
         shopingService.addProductToCurrentOrder(dto);
     }
 
-    @RequestMapping(value = "/finish", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     @Operation(summary = "Finish current user's order")
-    public void finishOrder(@RequestParam Integer userId) {
-        shopingService.finishCurrentOrder(userId);
+    public void finishOrder(@RequestParam(name = "userId") Integer id) {
+        shopingService.finishCurrentOrder(id);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE)
+    @Operation(summary = "Finish current user's order")
+    public void deletePositionFromOrder(@RequestParam(name = "posId") Integer id) {
+        shopingService.deletePosition(id);
     }
 }

@@ -23,26 +23,26 @@ public class ProductController {
     private final ProductService service;
 
     @Operation(summary = "Get all products by category")
-    @RequestMapping(value = "/category/{category}", method = RequestMethod.GET)
-    public List<Product> getAllByCategory(@PathVariable String category) {
+    @RequestMapping(value = "/category", method = RequestMethod.GET)
+    public List<Product> getAllByCategory(@RequestParam(name = "category") String category) {
         return service.getAllByCategory(category);
     }
 
     @Operation(summary = "Get all products by name matching")
-    @RequestMapping(value = "/name/{name}", method = RequestMethod.GET)
-    public List<Product> getAllByNameLike(@PathVariable String name) {
+    @RequestMapping(method = RequestMethod.GET)
+    public List<Product> getAllByNameLike(@RequestParam(name = "productName") String name) {
         return service.getAllByNameLike(name);
     }
 
     @Operation(summary = "Add new product to DB")
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity addNewProduct(@RequestBody ProductDto dto) {
         service.addNewProduct(dto);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @Operation(summary = "Delete product from DB")
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @RequestMapping(method = RequestMethod.DELETE)
     public ResponseEntity deleteProduct(@RequestBody ProductDto dto) {
         return new ResponseEntity(HttpStatus.OK);
     }
