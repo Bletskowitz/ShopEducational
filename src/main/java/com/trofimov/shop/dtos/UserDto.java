@@ -14,6 +14,7 @@ import java.util.List;
 public class UserDto {
     private Integer id;
     private List<ProductDto> cart;
-    private String name;
+    private String username;
     private String role;
+    private String password;
 }
