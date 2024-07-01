@@ -5,6 +5,8 @@ import com.trofimov.shop.services.ShopingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,12 +24,13 @@ public class ShoppingController {
 
     @RequestMapping(method = RequestMethod.POST)
     @Operation(summary = "Finish current user's order")
-    public void finishOrder(@RequestParam(name = "userId") Integer id) {
-        shopingService.finishCurrentOrder(id);
+    @PreAuthorize("@permissionEval.hasPermissionToModifyOrder(#id)")
+    public void finishOrder(@RequestParam(name = "orderId") Integer id) {
+        shopingService.finishCurrentUsersOrder(id);
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
-    @Operation(summary = "Finish current user's order")
+    @Operation(summary = "Delete position fom order")
     public void deletePositionFromOrder(@RequestParam(name = "posId") Integer id) {
         shopingService.deletePosition(id);
     }

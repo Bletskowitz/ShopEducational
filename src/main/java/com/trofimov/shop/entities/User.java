@@ -31,7 +31,7 @@ public class User implements UserDetails {
     @Size(min = 5)
     private String password;
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @OneToMany(mappedBy = "user", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Order> orders;
 
     @ManyToMany(fetch = FetchType.EAGER)

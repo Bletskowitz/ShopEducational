@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PositionDto {
-    private Integer userId;
+    private Integer orderId;
     private Integer productId;
     private Integer amount;
 }

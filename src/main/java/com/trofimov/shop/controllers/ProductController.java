@@ -6,17 +6,23 @@ import com.trofimov.shop.services.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/products")
+@Slf4j
 @Tag(name = "Product controller", description = "Operations for products")
 public class ProductController {
 
@@ -24,6 +30,7 @@ public class ProductController {
 
     @Operation(summary = "Get all products by category")
     @RequestMapping(value = "/category", method = RequestMethod.GET)
+    @PreAuthorize("@permissionEval.hasAdminRole()")
     public List<Product> getAllByCategory(@RequestParam(name = "category") String category) {
         return service.getAllByCategory(category);
     }
@@ -36,6 +43,7 @@ public class ProductController {
 
     @Operation(summary = "Add new product to DB")
     @RequestMapping(method = RequestMethod.PUT)
+    @PreAuthorize("@permissionEval.hasAdminRole()")
     public ResponseEntity addNewProduct(@RequestBody ProductDto dto) {
         service.addNewProduct(dto);
         return new ResponseEntity(HttpStatus.OK);
@@ -43,6 +51,7 @@ public class ProductController {
 
     @Operation(summary = "Delete product from DB")
     @RequestMapping(method = RequestMethod.DELETE)
+    @PreAuthorize("@permissionEval.hasAdminRole()")
     public ResponseEntity deleteProduct(@RequestBody ProductDto dto) {
         return new ResponseEntity(HttpStatus.OK);
     }

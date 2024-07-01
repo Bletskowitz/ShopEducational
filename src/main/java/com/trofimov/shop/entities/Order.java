@@ -26,5 +26,5 @@ public class Order {
     @JoinColumn(name = "pos_id")
     private List<OrderPosition> positions;
 
-    private Boolean finished;
+    private Boolean finished = false;
 }
