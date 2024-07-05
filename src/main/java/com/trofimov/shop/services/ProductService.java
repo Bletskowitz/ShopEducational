@@ -31,4 +31,8 @@ public class ProductService {
         Product entity = new Product(dto.getName(), dto.getPrice(), category);
         productsRepository.save(entity);
     }
+
+    public void deleteProduct(ProductDto dto) {
+        productsRepository.deleteById(dto.getId());
+    }
 }

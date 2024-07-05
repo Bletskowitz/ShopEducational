@@ -1,9 +1,7 @@
 package com.trofimov.shop.configurations;
 
-import com.trofimov.shop.enums.UserRole;
-import com.trofimov.shop.repositories.OrdersRepository;
-import com.trofimov.shop.repositories.RoleRepository;
-import com.trofimov.shop.services.AuthService;
+import com.trofimov.shop.entities.Role;
+import com.trofimov.shop.entities.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.PermissionEvaluator;
@@ -16,22 +14,14 @@ import java.io.Serializable;
 @Slf4j
 @RequiredArgsConstructor
 public class PermissionEval implements PermissionEvaluator {
-    private final AuthService authService;
-    private final RoleRepository roleRepository;
-    private final OrdersRepository ordersRepository;
-
-    public boolean hasAdminRole() {
-        return authService.getAuthenticatedUser().getRoles().contains(roleRepository.findFirstByName(UserRole.ADMINISTRATOR));
-    }
-
-    public boolean hasPermissionToModifyOrder(Integer orderId) {
-        log.atInfo().log("Checking permission for user " + authService.getAuthenticatedUser().getUsername() + " to modify order " + orderId);
-        return ordersRepository.findFirstById(orderId).getUser().getId().equals(authService.getAuthenticatedUser().getId());
-    }
 
     @Override
     public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
-        return false;
+        User user = (User) authentication.getPrincipal();
+        for(Role role: user.getRoles()) {
+            log.atInfo().log(role.getAuthority());
+        }
+        return user.getRoles().stream().anyMatch((role) -> role.getName().toString().equals(permission));
     }
 
     @Override

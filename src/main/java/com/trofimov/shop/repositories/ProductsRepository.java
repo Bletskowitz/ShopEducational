@@ -17,4 +17,6 @@ public interface ProductsRepository extends JpaRepository<Product, Integer> {
     @Query(value = "SELECT pr FROM Product pr WHERE pr.category.name = :category")
     List<Product> findAllByCategoryName(@Param("category") String category);
     List<Product> findAllByNameContainingIgnoreCase(String name);
+
+    void deleteById(Integer id);
 }

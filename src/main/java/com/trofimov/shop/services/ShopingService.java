@@ -8,12 +8,14 @@ import com.trofimov.shop.entities.User;
 import com.trofimov.shop.repositories.OrdersRepository;
 import com.trofimov.shop.repositories.PositionsRepository;
 import com.trofimov.shop.repositories.ProductsRepository;
+import com.trofimov.shop.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +24,7 @@ public class ShopingService {
     private final ProductsRepository productsRepository;
     private final PositionsRepository positionsRepository;
     private final OrdersRepository ordersRepository;
+    private final UserRepository userRepository;
 
     public void deletePosition(Integer posId) {
         positionsRepository.delete(positionsRepository.findById(posId).orElseThrow());
@@ -29,8 +32,12 @@ public class ShopingService {
 
     @Transactional
     public void finishCurrentUsersOrder(Integer orderId) {
-        User user = authService.getAuthenticatedUser();
-        user.getOrders().stream().map((order) -> {if(order.getId().equals(orderId)){order.setFinished(true);} return order;}).close();
+        User user = userRepository.findFirstById(authService.getAuthenticatedUser().getId());
+        for(Order order: user.getOrders()) {
+            if(order.getId().equals(orderId)) {
+                order.setFinished(true);
+            }
+        }
     }
 
     public void addProductToCurrentOrder(PositionDto dto) {

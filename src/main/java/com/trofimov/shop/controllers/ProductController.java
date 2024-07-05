@@ -2,6 +2,7 @@ package com.trofimov.shop.controllers;
 
 import com.trofimov.shop.dtos.ProductDto;
 import com.trofimov.shop.entities.Product;
+import com.trofimov.shop.services.AuthService;
 import com.trofimov.shop.services.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,7 +31,6 @@ public class ProductController {
 
     @Operation(summary = "Get all products by category")
     @RequestMapping(value = "/category", method = RequestMethod.GET)
-    @PreAuthorize("@permissionEval.hasAdminRole()")
     public List<Product> getAllByCategory(@RequestParam(name = "category") String category) {
         return service.getAllByCategory(category);
     }
@@ -43,7 +43,7 @@ public class ProductController {
 
     @Operation(summary = "Add new product to DB")
     @RequestMapping(method = RequestMethod.PUT)
-    @PreAuthorize("@permissionEval.hasAdminRole()")
+    @PreAuthorize("hasPermission('Product', 'CUSTOMER')")
     public ResponseEntity addNewProduct(@RequestBody ProductDto dto) {
         service.addNewProduct(dto);
         return new ResponseEntity(HttpStatus.OK);
@@ -51,8 +51,9 @@ public class ProductController {
 
     @Operation(summary = "Delete product from DB")
     @RequestMapping(method = RequestMethod.DELETE)
-    @PreAuthorize("@permissionEval.hasAdminRole()")
+    @PreAuthorize("hasPermission('Product', 'CUSTOMER')")
     public ResponseEntity deleteProduct(@RequestBody ProductDto dto) {
+        service.deleteProduct(dto);
         return new ResponseEntity(HttpStatus.OK);
     }
 }
