@@ -1,5 +1,6 @@
 package com.trofimov.shop.configurations;
 
+import com.trofimov.shop.configurations.userdetails.CustomUserDetails;
 import com.trofimov.shop.entities.Role;
 import com.trofimov.shop.entities.User;
 import lombok.RequiredArgsConstructor;
@@ -10,18 +11,15 @@ import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 
-@Component("permissionEval")
+@Component
 @Slf4j
 @RequiredArgsConstructor
 public class PermissionEval implements PermissionEvaluator {
 
     @Override
     public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
-        User user = (User) authentication.getPrincipal();
-        for(Role role: user.getRoles()) {
-            log.atInfo().log(role.getAuthority());
-        }
-        return user.getRoles().stream().anyMatch((role) -> role.getName().toString().equals(permission));
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        return userDetails.getAuthorities().stream().anyMatch((role) -> role.getAuthority().equals(permission));
     }
 
     @Override

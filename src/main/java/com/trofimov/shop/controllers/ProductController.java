@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +44,7 @@ public class ProductController {
 
     @Operation(summary = "Add new product to DB")
     @RequestMapping(method = RequestMethod.PUT)
-    @PreAuthorize("hasPermission('Product', 'CUSTOMER')")
+    @PostAuthorize("hasPermission('Product', 'ADMINISTRATOR')")
     public ResponseEntity addNewProduct(@RequestBody ProductDto dto) {
         service.addNewProduct(dto);
         return new ResponseEntity(HttpStatus.OK);
@@ -51,7 +52,7 @@ public class ProductController {
 
     @Operation(summary = "Delete product from DB")
     @RequestMapping(method = RequestMethod.DELETE)
-    @PreAuthorize("hasPermission('Product', 'CUSTOMER')")
+    @PostAuthorize("hasPermission('Product', 'ADMINISTRATOR')")
     public ResponseEntity deleteProduct(@RequestBody ProductDto dto) {
         service.deleteProduct(dto);
         return new ResponseEntity(HttpStatus.OK);

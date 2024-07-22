@@ -26,6 +26,10 @@ public class ProductService {
         return productsRepository.findAllByNameContainingIgnoreCase(name);
     }
 
+    public Product getFirstByNameFull(String name) {
+        return productsRepository.findFirstByName(name);
+    }
+
     public void addNewProduct(ProductDto dto) {
         Category category = categoryRepository.findFirstByNameIgnoreCase(dto.getCategory().getName());
         Product entity = new Product(dto.getName(), dto.getPrice(), category);
